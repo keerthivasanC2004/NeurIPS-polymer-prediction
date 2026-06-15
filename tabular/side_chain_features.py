@@ -508,7 +508,7 @@ def analyze_polymers(
         number_of_jobs = multiprocessing.cpu_count()
 
     results = Parallel(n_jobs=number_of_jobs, backend="loky")(
-        delayed(extract_polymer_features)(smiles) for smiles in tqdm(smiles_list)
+        delayed(process_polymer_smiles)(smiles) for smiles in tqdm(smiles_list)
     )
     df = pd.DataFrame(results).set_index("SMILES")
     return df

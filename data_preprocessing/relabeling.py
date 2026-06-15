@@ -1,4 +1,7 @@
-# from autogluon.tabular import TabularPredictor
+try:
+    from autogluon.tabular import TabularPredictor
+except ImportError:
+    TabularPredictor = None
 import pickle
 import json
 import glob
@@ -68,6 +71,8 @@ def load_tabular_models():
                         model = pickle.load(model_file)
                         model_group.append(model)
                 except:
+                    if TabularPredictor is None:
+                        raise
                     model = TabularPredictor.load(model_path, require_py_version_match=False)
                     model_group.append(model)
             targets_to_model_groups[target_name].append(model_group)
